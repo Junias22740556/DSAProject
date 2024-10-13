@@ -1,0 +1,99 @@
+CLASS Contact
+    ATTRIBUTES:
+        name
+        phoneNumber
+
+    CONSTRUCTOR(name, phoneNumber)
+
+CLASS PhoneBook
+    ATTRIBUTES:
+        contacts (LinkedList of Contact)
+
+    CONSTRUCTOR()
+        INITIALIZE contacts as a new LinkedList
+
+    METHOD addContact(name, phoneNumber)
+        CREATE newContact as a new Contact(name, phoneNumber)
+        ADD newContact to contacts
+        PRINT "Contact added: " + name + " - " + phoneNumber
+
+    METHOD searchForUpdate(name)
+        FOR each contact IN contacts
+            IF contact.name matches name (case insensitive)
+                RETURN contact
+        PRINT "Contact not found: " + name
+        RETURN null
+
+    METHOD updateContact()
+        PROMPT user for contact name to update
+        original = searchForUpdate(userInput)
+        IF original is null
+            PRINT "No such contact exists."
+            RETURN
+
+        PROMPT user for new name
+        original.name = newName
+
+        PROMPT user for new phone number
+        original.phoneNumber = newPhoneNumber
+
+        PRINT "Contact updated: " + newName + " - " + newPhoneNumber
+
+    METHOD deleteContact(name)
+        FOR each contact in contacts using iterator
+            IF contact.name matches name (case insensitive)
+                REMOVE contact from contacts
+                PRINT "Contact deleted: " + name
+                RETURN
+        PRINT "Contact not found: " + name
+
+    METHOD searchContact(name)
+        FOR each contact IN contacts
+            IF contact.name matches name (case insensitive)
+                PRINT "Contact found: " + contact.name + " - " + contact.phoneNumber
+                RETURN
+        PRINT "Contact not found: " + name
+
+    METHOD displayContacts()
+        IF contacts is empty
+            PRINT "Phonebook is empty."
+            RETURN
+        PRINT "Phonebook contacts:"
+        FOR each contact IN contacts
+            PRINT contact.name + " - " + contact.phoneNumber
+
+CLASS PhoneBookSystem
+    METHOD main()
+        CREATE phoneBook as a new PhoneBook
+        INITIALIZE choice to 0
+
+        WHILE choice is not 6
+            PRINT menu options
+            PROMPT user for choice
+            READ choice
+
+            SWITCH choice
+                CASE 1:
+                    PROMPT user for name
+                    PROMPT user for phone number
+                    CALL phoneBook.addContact(name, phoneNumber)
+                
+                CASE 2:
+                    PROMPT user for name to delete
+                    CALL phoneBook.deleteContact(deleteName)
+                
+                CASE 3:
+                    PROMPT user for name to search
+                    CALL phoneBook.searchContact(searchName)
+
+                CASE 4:
+                    CALL phoneBook.displayContacts()
+
+                CASE 5:
+                    CALL phoneBook.updateContact()
+
+                CASE 6:
+                    PRINT "Exiting..."
+
+                DEFAULT:
+                    PRINT "Invalid choice, please try again."
